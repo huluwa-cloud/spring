@@ -30,6 +30,15 @@ import org.springframework.beans.factory.support.BeanNameGenerator;
 import org.springframework.context.annotation.Import;
 
 /**
+ * 注意MapperScan这个注解是在Mybatis-Spring项目里面的，不是在Mybatis-3项目里面的。因为它是为了帮助将Mybatis整合进Spring里面的。
+ *
+ * 在使用Java Config做Bean配置的时候，@MapperScan这个注解就是用来将那些MyBatis mapper接口注册到Spring容器中。
+ * 它的作用其实和 MapperScannerConfigurer通过使用MapperScannerRegistrar所起的作用，是一样的。
+ *
+ * !!!注意：与@Mapper不同，@Mapper是Mybatis自带的注解，是在MyBatis-3项目里面的。
+ * 但在MyBatis-3的项目源码中，@Mapper也仅仅是一个Marker注解而已，没什么特别的逻辑在里面。
+ *
+ * <p>
  * Use this annotation to register MyBatis mapper interfaces when using Java Config. It performs when same work as
  * {@link MapperScannerConfigurer} via {@link MapperScannerRegistrar}.
  *

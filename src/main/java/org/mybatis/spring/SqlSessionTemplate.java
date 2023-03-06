@@ -65,6 +65,13 @@ import org.springframework.dao.support.PersistenceExceptionTranslator;
  * }
  * </pre>
  *
+ *
+ * <p>
+ *   注意：SqlSessionTemplate是实现了SqlSession接口的，
+ *   也就是这个东西是要当作SqlSession来用的。
+ *
+ * </p>
+ *
  * @author Putthiphong Boonphong
  * @author Hunter Presnall
  * @author Eduardo Macarron
@@ -346,6 +353,8 @@ public class SqlSessionTemplate implements SqlSession, DisposableBean {
 
   /**
    * {@inheritDoc}
+   *
+   *
    */
   @Override
   public void close() {
@@ -417,6 +426,11 @@ public class SqlSessionTemplate implements SqlSession, DisposableBean {
    * Proxy needed to route MyBatis method calls to the proper SqlSession got from Spring's Transaction Manager It also
    * unwraps exceptions thrown by {@code Method#invoke(Object, Object...)} to pass a {@code PersistenceException} to the
    * {@code PersistenceExceptionTranslator}.
+   *
+   * <p>
+   *   注意看这里，InvocationHandler，所以这是用了JDK 自带的代理的
+   * </p>
+   *
    */
   private class SqlSessionInterceptor implements InvocationHandler {
     @Override
@@ -424,10 +438,16 @@ public class SqlSessionTemplate implements SqlSession, DisposableBean {
       SqlSession sqlSession = getSqlSession(SqlSessionTemplate.this.sqlSessionFactory,
           SqlSessionTemplate.this.executorType, SqlSessionTemplate.this.exceptionTranslator);
       try {
+
+        // 反射调用真实的sqlSession(real target)的对应的方法
+
         Object result = method.invoke(sqlSession, args);
+
         if (!isSqlSessionTransactional(sqlSession, SqlSessionTemplate.this.sqlSessionFactory)) {
           // force commit even on non-dirty sessions because some databases require
           // a commit/rollback before calling close()
+
+          // 提交事务
           sqlSession.commit(true);
         }
         return result;

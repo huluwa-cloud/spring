@@ -44,11 +44,16 @@ public abstract class SqlSessionDaoSupport extends DaoSupport {
    * Set MyBatis SqlSessionFactory to be used by this DAO. Will automatically create SqlSessionTemplate for the given
    * SqlSessionFactory.
    *
+   *  <p>
+   *    注入SqlSessionFactory的时候，就会创建SqlSessionTemplate
+   *  </p>
+   *
    * @param sqlSessionFactory
    *          a factory of SqlSession
    */
   public void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {
     if (this.sqlSessionTemplate == null || sqlSessionFactory != this.sqlSessionTemplate.getSqlSessionFactory()) {
+      // 注入SqlSessionFactory的时候，就会创建SqlSessionTemplate
       this.sqlSessionTemplate = createSqlSessionTemplate(sqlSessionFactory);
     }
   }

@@ -88,7 +88,16 @@ public class MapperFactoryBean<T> extends SqlSessionDaoSupport implements Factor
   }
 
   /**
+   * ========================================
+   * ========================================
+   * ========================================
+   *
+   * FactoryBean的核心方法就是getObject
+   *
+   * 依赖注入，注入Mapper接口实例的时候，就是调用的这里。
+   *
    * {@inheritDoc}
+   *
    */
   @Override
   public T getObject() throws Exception {

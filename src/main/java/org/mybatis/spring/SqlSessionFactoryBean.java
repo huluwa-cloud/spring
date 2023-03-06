@@ -77,6 +77,12 @@ import org.springframework.util.ClassUtils;
  * in combination with a {@code SqlSessionFactory}. JTA should be used for transactions which span multiple databases or
  * when container managed transactions (CMT) are being used.
  *
+ * <p>
+ *   建立一个SqlSessionFactoryBean纳入spring容器。
+ *   而Mybatis的核心基础SqlSessionFactory则是这个bean的一个属性。
+ *   这也意味着Mybatis的SqlSessionFactory在spring容器启动的时候，就已经跟随着创建了。
+ * </p>
+ *
  * @author Putthiphong Boonphong
  * @author Hunter Presnall
  * @author Eduardo Macarron
@@ -480,6 +486,8 @@ public class SqlSessionFactoryBean
 
   /**
    * {@inheritDoc}
+   *
+   * <p>afterPropertiesSet是 InitializingBean(spring的接口) 的方法
    */
   @Override
   public void afterPropertiesSet() throws Exception {
@@ -626,6 +634,8 @@ public class SqlSessionFactoryBean
 
   /**
    * {@inheritDoc}
+   *
+   * <p>这个是FactoryBean的方法
    */
   @Override
   public SqlSessionFactory getObject() throws Exception {
