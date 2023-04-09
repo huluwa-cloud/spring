@@ -248,6 +248,9 @@ public class ClassPathMapperScanner extends ClassPathBeanDefinitionScanner {
       }
       /*
        * 这里就是扫出来的所有接口的BeanDefinition的BeanClass都是MapperFactoryBean的原因！！！
+       *
+       * 这里是一个及其关键的点。就是这里让所有Mapper的Bean的BeanClass都是MapperFactoryBean
+       *
        */
       definition.setBeanClass(this.mapperFactoryBeanClass);
 
