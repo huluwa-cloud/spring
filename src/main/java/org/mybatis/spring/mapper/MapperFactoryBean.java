@@ -22,6 +22,7 @@ import org.apache.ibatis.session.Configuration;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.FactoryBean;
+import org.springframework.dao.support.DaoSupport;
 
 /**
  * BeanFactory that enables injection of MyBatis mapper interfaces. It can be set up with a SqlSessionFactory or a
@@ -67,6 +68,10 @@ public class MapperFactoryBean<T> extends SqlSessionDaoSupport implements Factor
 
   /**
    * {@inheritDoc}
+   *
+   * @see DaoSupport#afterPropertiesSet()
+   * @see DaoSupport#checkDaoConfig()
+   * DaoSupport是spring-tx包中的，属于spring数据库访问的相关的代码
    */
   @Override
   protected void checkDaoConfig() {
@@ -77,6 +82,9 @@ public class MapperFactoryBean<T> extends SqlSessionDaoSupport implements Factor
     Configuration configuration = getSqlSession().getConfiguration();
     if (this.addToConfig && !configuration.hasMapper(this.mapperInterface)) {
       try {
+        /*
+         * 在这里，把接口都加到MyBatis的Configuration的mapper集合mapperRegistry中
+         */
         configuration.addMapper(this.mapperInterface);
       } catch (Exception e) {
         logger.error("Error while adding the mapper '" + this.mapperInterface + "' to configuration.", e);

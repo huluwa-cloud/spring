@@ -163,6 +163,10 @@ public class ClassPathMapperScanner extends ClassPathBeanDefinitionScanner {
   /**
    * Configures parent scanner to search for the right interfaces. It can search for all interfaces or just for those
    * that extends a markerInterface or/and those annotated with the annotationClass
+   *
+   * 配置扫描的时候，哪些被纳入容器，生成BeanDefinition
+   * @see MapperScannerConfigurer#postProcessBeanDefinitionRegistry(BeanDefinitionRegistry)
+   *
    */
   public void registerFilters() {
     boolean acceptAllInterfaces = true;
@@ -183,7 +187,9 @@ public class ClassPathMapperScanner extends ClassPathBeanDefinitionScanner {
       });
       acceptAllInterfaces = false;
     }
-
+    /*
+     * 默认所扫描的包下，所有的类都纳入
+     */
     if (acceptAllInterfaces) {
       // default include filter that accepts all classes
       addIncludeFilter((metadataReader, metadataReaderFactory) -> true);
@@ -240,7 +246,9 @@ public class ClassPathMapperScanner extends ClassPathBeanDefinitionScanner {
       } catch (ClassNotFoundException ignore) {
         // ignore
       }
-
+      /*
+       * 这里就是扫出来的所有接口的BeanDefinition的BeanClass都是MapperFactoryBean的原因！！！
+       */
       definition.setBeanClass(this.mapperFactoryBeanClass);
 
       definition.getPropertyValues().add("addToConfig", this.addToConfig);
@@ -304,6 +312,10 @@ public class ClassPathMapperScanner extends ClassPathBeanDefinitionScanner {
 
   /**
    * {@inheritDoc}
+   *
+   * 判断是否是我们需要的候选的Bean
+   * MyBatis-Spring只需要【接口】
+   *
    */
   @Override
   protected boolean isCandidateComponent(AnnotatedBeanDefinition beanDefinition) {

@@ -109,6 +109,8 @@ class MapperScanTest {
     startContext();
 
     // all interfaces with methods should be loaded
+    // get不到bean，是会抛异常的，NoSuchBeanDefinitionException，看getBean方法的注释文档就知道
+    // 虽然这些接口很多没有实例。但是MyBatis-Spring把他们都注册到了Spring容器，实力都是MapperFactoryBean
     applicationContext.getBean("mapperInterface");
     applicationContext.getBean("mapperSubinterface");
     applicationContext.getBean("mapperChildInterface");

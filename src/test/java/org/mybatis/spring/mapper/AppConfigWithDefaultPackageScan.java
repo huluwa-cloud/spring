@@ -19,6 +19,9 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+/*
+ * 没有指定扫描包，那就是扫描当前包
+ */
 @MapperScan
 public class AppConfigWithDefaultPackageScan {
 

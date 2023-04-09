@@ -46,7 +46,7 @@ import org.springframework.context.annotation.Import;
  * Either {@link #basePackageClasses} or {@link #basePackages} (or its alias {@link #value}) may be specified to define
  * specific packages to scan. Since 2.0.4, If specific packages are not defined, scanning will occur from the package of
  * the class that declares this annotation.
- *
+ * 从2.0.4，开始，如果不指定要扫描的包，那么就会扫描注解所注解的类所在的包（也就是当前包啦）
  * <p>
  * Configuration example:
  * </p>

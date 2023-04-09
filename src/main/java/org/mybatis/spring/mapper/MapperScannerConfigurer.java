@@ -353,7 +353,10 @@ public class MapperScannerConfigurer
     if (this.processPropertyPlaceHolders) {
       processPropertyPlaceHolders();
     }
-
+    /*
+     * Spring连Scanner都可以做扩展，让用户定义。
+     * MyBatis-Spring就自己实现了一个Scanner。
+     */
     ClassPathMapperScanner scanner = new ClassPathMapperScanner(registry);
     scanner.setAddToConfig(this.addToConfig);
     scanner.setAnnotationClass(this.annotationClass);
